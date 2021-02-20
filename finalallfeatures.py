@@ -15,7 +15,7 @@ def vaccine(age=None):
     age = int(age)
     if age == 1:
         #console.log('age=12')
-        vaccines = ["Hepatitus A - Costs:Rs.1400 - Due:now - Valid till: 12 months from now."]
+        vaccines = ["Hepatitus A - 1 dose - Due:now - Valid till: 12 months from now - Costs:Rs.1400."]
         #the input will be in thunkable
         emailRecieve ='akshitagoel2009@gmail.com'
         #emailRecieve will be the retrieved from the databases
@@ -29,7 +29,7 @@ def vaccine(age=None):
         return jsonify(vaccines)
     
     elif age == 2:
-        vaccines = ["Diptheria - 4 shots - Due:now - Valid till:6 months from now (all) - Costs:Rs.800."]
+        vaccines = ["Diptheria - 4 doses - Due:now - Valid till:6 months from now (all) - Costs:Rs.800."]
         #"You had to have the second dose of Hepatitus B", months-2, "months ago. It costs 175 rs.")
         #print("You had to have the Diphtheria/DTaP")
          #the input will be in thunkable
@@ -61,6 +61,21 @@ def vaccine(age=None):
     else:
         vaccines = 'Age did not match.'
         return jsonify(vaccines)
+
+@app.route("/getremedy/<symptomEntered>")
+@app.route("/getremedy/<symptomEntered>")
+def giveRemedy(symptomEntered=None):
+    symptomEntered = symptomEntered.lower()
+    sympmeds = {'cough': 'grating ginger and drinking the juice', 'fever': 'staying in a bath with lukewarm water and rest' ,'sneeze': 'Have citrus fruits like oranges or lemons' , 'cold': 'to drink the juice from carom leaves.' , 'musclepull' : 'stretching and relaxing' , 'backpain' : 'apply cold ice on the back' , 'brainfog' : 'meditation' , 'eyepain' : 'apply cold icepack on eyes and take a nap' , 'wheezing' : 'drink coffee or sit/stand in relaxing positions' , 'breathingdifficulty' : 'drink coffee or sit/stand in relaxing'}
+    for symptom, remedy in sympmeds.items():
+    
+        if symptomEntered.lower() == symptom:
+            answer = 'For a ' + symptomEntered + ' you should try' + remedy + '.'
+            return jsonify(answer)
+        else:
+            pass
+
+    return jsonify("That food is either not in our database or you spelt it wrong.")
 
 
 @app.route("/getnutri/<age>")
@@ -101,10 +116,8 @@ def nutrition(age=None):
 def foodScan(tags=None):
   #thunkableoutput="table, back, orange, bed, ear, mouth"
   split = tags.split(",")
-  foods = {'orange': 'Vitamin C - 53%, Carbohydrates - 12%, Protein - 0.9%',
-            'apple' : 'Carbohydrates - 14%, Protein - 0.3%' ,
-            'bread' : 'Carbohydrates - 49%, Protein - 9%,' ,
-            'cheese' : 'Carbohydrates - 1.3%, Protein = 25%, Fat = 33%,'}
+  foods = {'orange': 'Vitamin C - 53%, Carbohydrates - 12%, Protein - 0.9%', 'apple' : 'Carbohydrates - 14%, Protein - 0.3%' , 'bread' : 'Carbohydrates - 49%, Protein - 9%,' ,
+        'cheese' : 'Carbohydrates - 1.3%, Protein - 25%, Fat - 33%,', 'banana' : 'Carbohydrates - 23%, Fibre - 2.6%,       Protein - 1.1%, Vitamin B - 20%, Vitamin C - 14%'}
   
   for food in split:
     try:
